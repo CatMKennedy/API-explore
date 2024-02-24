@@ -77,6 +77,7 @@ def get_country(id):
 @app.post('/countries')
 def create_country():
     data = request.get_json()
+    '''
     if 'name' not in data or 'capital' not in data or 'area' not in data:
         return error_response(400, 'must include name, capital and area fields')
     if db.session.scalar(sa.select(Country).where(
@@ -85,6 +86,7 @@ def create_country():
     if db.session.scalar(sa.select(Country).where(
             Country.capital == data['capital'])):
         return error_response(400, 'Capital already exists, please add a different one')
+    '''
     c = Country()
     c.from_dict(data)
     db.session.add(c)
