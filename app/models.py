@@ -13,3 +13,17 @@ class Country(db.Model):
 
     def __repr__(self):
         return '<Country {}>'.format(self.name)
+    
+    def to_dict(self):
+        data = {
+            'id': self.id,
+            'name': self.name,
+            'capital': self.capital,
+            'area': self.area   
+        }
+        return data
+    
+    def from_dict(self, data):
+        for field in ['name', 'capital', 'area']:
+            if field in data:
+                setattr(self, field, data[field])
