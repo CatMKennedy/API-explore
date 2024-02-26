@@ -9,28 +9,20 @@ from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-# TO DO - add error handling
-# from a app.api.errors import bad_request
+# TO DO - refactor - use blueprints, add error handling
 
 app = Flask(__name__)   # create a Flask object
 
-
 # Configure database using SQLAlchemy
-app.config.from_object(Config)  # configure app (Flask object)
+app.config.from_object(Config)  
 db = SQLAlchemy(app)            # Create db 
 migrate = Migrate(app, db)
-
-# Createflask db upgrade the database using cli with migrate:
-# flask db init - create new migrations directory
-# flask db migrate - create/update script to adapt any existing db to model 
-# flask db upgrade - apply any changes to db (apply script)
-
 
 from app import models
 from app.models import Country
 
 
-# Initial DB contents for testing
+# Initial data for testing
 countries = [
     {"id": 1, "name": "Thailand", "capital": "Bangkok", "area": 513120},
     {"id": 2, "name": "Australia", "capital": "Canberra", "area": 7617930},
@@ -38,14 +30,7 @@ countries = [
 ]
 
 
-# Needs refactoring
-
-
-
-# TO DO: change the route functions so that they use the database instead
-
-
-# API Helper functions - currently doesn't use database
+# API Helper functions - don't always use database
 def _find_next_id():
     return max(country["id"] for country in countries) + 1
 
@@ -56,8 +41,7 @@ def error_response(status_code, message=None):
     return payload, status_code
 
 
-
-# View functions
+# View functions - just for testing
 
 @app.route("/")
 def home():
@@ -75,9 +59,9 @@ def get_country(id):
     pass
 
 @app.post('/countries')
-def create_country():
+def create_country():   # TO DO - needs improving
     data = request.get_json()
-    '''
+
     if 'name' not in data or 'capital' not in data or 'area' not in data:
         return error_response(400, 'must include name, capital and area fields')
     if db.session.scalar(sa.select(Country).where(
@@ -86,7 +70,7 @@ def create_country():
     if db.session.scalar(sa.select(Country).where(
             Country.capital == data['capital'])):
         return error_response(400, 'Capital already exists, please add a different one')
-    '''
+
     c = Country()
     c.from_dict(data)
     db.session.add(c)
@@ -95,6 +79,7 @@ def create_country():
 #{'Location': url_for('get_country', id=c.id)}
 
 
+# Alternatives - using dictonary
 '''
 @app.post('/countries')
 def add_country():
@@ -109,8 +94,6 @@ def add_country():
         db.session.commit()
     return {"error": "Request must be JSON"}, 415
 '''
-    
-
 
 '''
 @app.get("/countries")
@@ -129,6 +112,7 @@ def add_country():
     return {"error": "Request must be JSON"}, 415
 '''
 
-# For newer Mac OS versions, port 5000 is already used - change to port 8000
+# If required:
+# for newer Mac OS versions, port 5000 is already used - change to port 8000
 #if __name__ == "__main__":
 #    app.run(host="0.0.0.0", port=8000, debug=True)
