@@ -30,7 +30,7 @@ countries = [
 ]
 
 
-# API Helper functions - don't always use database
+# Helper functions
 def _find_next_id():
     return max(country["id"] for country in countries) + 1
 
@@ -80,28 +80,16 @@ def create_country():   # TO DO - needs improving
 
 
 # Alternatives - using dictonary
-'''
-@app.post('/countries')
-def add_country():
-    if request.is_json:
-        country_name = request.json['name']
-        country_capital = request.json['capital']
-        country_area = request.json['area']
-        c = Country(name=country_name, capital=country_capital, area=country_area)
-        #dict = json.loads(country)
-        #c = Country(name=dict["name"], capital=dict["capital"], area=dict["area"])
-        db.session.add(c)
-        db.session.commit()
-    return {"error": "Request must be JSON"}, 415
-'''
 
 '''
+@app.get("/country")
+def get_country():
+    return countries[1]
+
 @app.get("/countries")
 def get_countries():
     return jsonify(countries)
-'''
-    
-'''
+
 @app.post("/countries")
 def add_country():
     if request.is_json:
