@@ -45,18 +45,39 @@ def error_response(status_code, message=None):
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+    #name1=request.args.get('name')
+    return render_template("home.html", name=request.args.get('name'))
 
 
 # API functions
 
-@app.get('/countries')
+@app.get('/countries')   # get all countries
 def get_countries():
-    pass
+    query = sa.select(Country)
+    countries = db.session.scalars(query).all()
+    results = []
+    for c in countries:  # change each item to dict
+        results.append(c.to_dict())
 
+    return jsonify(results)
+
+''' 
+@app.get('/countries/<int:id>')  #countries/?country=<name>
+def get_country(id):
+    country = request.args.get('country') 
+    data = db.session.scalar(sa.select(Country).where(
+            Country.name == country))
+    if data != None:
+        return jsonify(data)
+    else:
+        return error_response(400, f"Country {country} not found in database")
+ '''       
+    
+'''
 @app.get('/countries/<int:id>')
 def get_country(id):
     pass
+'''
 
 @app.post('/countries')
 def create_country():   # TO DO - needs improving
