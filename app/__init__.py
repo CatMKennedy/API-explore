@@ -62,9 +62,9 @@ def get_countries():
     return jsonify(results)
 
 
-@app.get('/countries/')   # /countries/?country=<name>
+@app.get('/country/')   # /countries/?name=<country name>
 def get_country():
-    country = request.args.get('country') 
+    country = request.args.get('name') 
     data = db.session.scalar(sa.select(Country).where(
             Country.name == country))
     if data != None:
@@ -73,6 +73,32 @@ def get_country():
     else:
         return error_response(400, f"Country {country} not found in database")
 
+
+@app.get('/country/capital/')   # /capital/?capital=<capital name>
+def get_country_with_capital():
+    capital = request.args.get('capital') 
+    data = db.session.scalar(sa.select(Country).where(
+            Country.capital == capital))
+    if data != None:
+        results = data.to_dict()
+        return jsonify(results)
+    else:
+        return error_response(400, f"Country with capital {capital} not found in database")
+
+
+'''
+@app.get('/countries/')   # /countries/?name=<name>
+def get_country():
+    country = request.args.get('name') 
+    data = db.session.scalar(sa.select(Country).where(
+            Country.name == country))
+    if data != None:
+        results = data.to_dict()
+        return jsonify(results)
+    else:
+        return error_response(400, f"Country {country} not found in database")
+
+'''
 
 @app.post('/countries')
 def create_country():   # TO DO - needs improving
