@@ -64,18 +64,14 @@ def get_countries():
 
 @app.get('/countries/')   # /countries/?country=<name>
 def get_country():
-    print(f"Request.args = {request.args}")
     country = request.args.get('country') 
-    print(f"country = {country}")
     data = db.session.scalar(sa.select(Country).where(
             Country.name == country))
-    print(f"data = {data}")
     if data != None:
         results = data.to_dict()
         return jsonify(results)
     else:
         return error_response(400, f"Country {country} not found in database")
-
 
 
 @app.post('/countries')
