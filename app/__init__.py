@@ -1,4 +1,4 @@
-# __init__.py  - based on various tutorials 
+# __init__.py  
 from flask import Flask, render_template, request, json, jsonify, url_for
 
 from werkzeug.http import HTTP_STATUS_CODES  #to be moved to error module
@@ -9,7 +9,7 @@ from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-# TO DO - refactor - use blueprints, add error handling
+# TO DO - refactor - use blueprints, add tests and error handling
 
 app = Flask(__name__)   # create a Flask object
 
@@ -62,11 +62,40 @@ def get_countries():
     return jsonify(results)
 
 
+# Get a country where an attribute has a particular value
+# Currently only handles one attribute - for complex queries, needs to build a dynamic query
+@app.get('/country/')   # /country/?<key>=<value>
+def get_country():
+    # Get attributes
+    c = Country()
+    c_dict = c.to_dict()
+    
+    arg_dict = request.args.to_dict()
+    arg_key = list(arg_dict.keys())[0]  # Assume only one arg in query
+    if not arg_key in c_dict.keys():
+        return error_response(400, f"Attribute {arg_key} not in database")
+
+    # get the value
+    query_value = request.args.get(arg_key)
+    if not query_value: 
+       return error_response(400,f"Attribute {arg_key} must have a value") 
+
+    data = db.session.scalar(sa.select(Country).where(
+            getattr(Country, arg_key) == query_value))  
+    if data != None:
+        results = data.to_dict()
+        return jsonify(results)
+    else:
+        return error_response(400, f"Country with {arg_key} of {query_value} not found in database")
+
+
+''' Old - too much repeated code
 @app.get('/country/')   # /countries/?name=<country name>
 def get_country():
     country = request.args.get('name') 
     data = db.session.scalar(sa.select(Country).where(
-            Country.name == country))
+            #Country.name == country))
+            getattr(Country, "name") == country))  
     if data != None:
         results = data.to_dict()
         return jsonify(results)
@@ -85,18 +114,6 @@ def get_country_with_capital():
     else:
         return error_response(400, f"Country with capital {capital} not found in database")
 
-
-'''
-@app.get('/countries/')   # /countries/?name=<name>
-def get_country():
-    country = request.args.get('name') 
-    data = db.session.scalar(sa.select(Country).where(
-            Country.name == country))
-    if data != None:
-        results = data.to_dict()
-        return jsonify(results)
-    else:
-        return error_response(400, f"Country {country} not found in database")
 
 '''
 
