@@ -45,11 +45,10 @@ def error_response(status_code, message=None):
 
 @app.route("/")
 def home():
-    #name1=request.args.get('name')
     return render_template("home.html", name=request.args.get('name'))
 
 
-# API functions - still very messy
+# API functions 
 
 @app.get('/countries/<int:id>')   # Retrieve a country using id (primary key)
 def get_country_by_id(id):  
@@ -126,7 +125,7 @@ def get_country_with_capital():
 '''
 
 @app.post('/countries/')
-def create_country():   # TO DO - needs improving
+def create_country():   
     data = request.get_json()
 
     if 'name' not in data or 'capital' not in data or 'area' not in data:
@@ -149,7 +148,6 @@ def create_country():   # TO DO - needs improving
 # Retrieve a country by <id> and update its details
 @app.put('/countries/<int:id>')
 def update_country(id):  
-    print(f"id = {id}") 
     c = db.get_or_404(Country, id)  # retrieve country with <id>
     data = request.get_json()
     print(f"Data is {data}")
@@ -158,7 +156,6 @@ def update_country(id):
 
     # Make the update
     c.from_dict(data)
-    print(f"c is {c}")
     db.session.commit()
     return c.to_dict()
     
@@ -185,7 +182,9 @@ def add_country():
     return {"error": "Request must be JSON"}, 415
 '''
 
-# If required:
-# for newer Mac OS versions, port 5000 is already used - change to port 8000
-#if __name__ == "__main__":
-#    app.run(host="0.0.0.0", port=8000, debug=True)
+'''
+If required:
+for newer Mac OS versions, port 5000 is already used - change to port 8000
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000, debug=True)
+'''
