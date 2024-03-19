@@ -51,6 +51,13 @@ def home():
 
 # API functions - still very messy
 
+@app.get('/countries/<int:id>')   # Retrieve a country using id (primary key)
+def get_country_by_id(id):  
+    data = db.get_or_404(Country, id)  
+    results = data.to_dict()
+    return jsonify(results)
+    
+
 @app.get('/countries/all')   # get all countries
 def get_countries():
     query = sa.select(Country)
@@ -62,11 +69,11 @@ def get_countries():
     return jsonify(results)
 
 
-# Get a country where an attribute has a particular value
+# Handle queries: get a country where an attribute has a particular value.
 # Currently only handles one attribute - for complex queries, needs to build a dynamic query
 @app.get('/country/')   # /country/?<key>=<value>
 def get_country():
-    # Get country attributes (model)
+    # Get country attributes (from model)
     c = Country()
     c_dict = c.to_dict()
     
@@ -139,26 +146,23 @@ def create_country():   # TO DO - needs improving
 #{'Location': url_for('get_country', id=c.id)}
 
 
-# Retrieve a country <name> and update its details
-@app.put('/countries/<name>')
-def update_country(name):   
-    c = db.get_or_404(Country, name)  # retrieve country with <name>
+# Retrieve a country by <id> and update its details
+@app.put('/countries/<int:id>')
+def update_country(id):  
+    print(f"id = {id}") 
+    c = db.get_or_404(Country, id)  # retrieve country with <id>
     data = request.get_json()
+    print(f"Data is {data}")
 
-    # Ensure json data is in the right format
-    if 'name' not in data or 'capital' not in data or 'area' not in data:
-        return error_response(400, 'must include name, capital and area fields')
-
-    # TO DO - other checks - e.g. if a capital city already exists
+    # TO DO - check json data - e.g. if a capital city already exists
 
     # Make the update
     c.from_dict(data)
+    print(f"c is {c}")
     db.session.commit()
     return c.to_dict()
     
     
-
-
 
 # Alternatives - using dictonary
 
