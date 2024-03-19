@@ -66,10 +66,11 @@ def get_countries():
 # Currently only handles one attribute - for complex queries, needs to build a dynamic query
 @app.get('/country/')   # /country/?<key>=<value>
 def get_country():
-    # Get attributes
+    # Get country attributes (model)
     c = Country()
     c_dict = c.to_dict()
     
+    # Get query params
     arg_dict = request.args.to_dict()
     arg_key = list(arg_dict.keys())[0]  # Assume only one arg in query
     if not arg_key in c_dict.keys():
@@ -117,7 +118,7 @@ def get_country_with_capital():
 
 '''
 
-@app.post('/countries')
+@app.post('/countries/')
 def create_country():   # TO DO - needs improving
     data = request.get_json()
 
@@ -136,6 +137,27 @@ def create_country():   # TO DO - needs improving
     db.session.commit()
     return c.to_dict(), 201
 #{'Location': url_for('get_country', id=c.id)}
+
+
+# Retrieve a country <name> and update its details
+@app.put('/countries/<name>')
+def update_country(name):   
+    c = db.get_or_404(Country, name)  # retrieve country with <name>
+    data = request.get_json()
+
+    # Ensure json data is in the right format
+    if 'name' not in data or 'capital' not in data or 'area' not in data:
+        return error_response(400, 'must include name, capital and area fields')
+
+    # TO DO - other checks - e.g. if a capital city already exists
+
+    # Make the update
+    c.from_dict(data)
+    db.session.commit()
+    return c.to_dict()
+    
+    
+
 
 
 # Alternatives - using dictonary
