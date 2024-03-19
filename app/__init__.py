@@ -150,7 +150,6 @@ def create_country():
 def update_country(id):  
     c = db.get_or_404(Country, id)  # retrieve country with <id>
     data = request.get_json()
-    print(f"Data is {data}")
 
     # TO DO - check json data - e.g. if a capital city already exists
 
