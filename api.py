@@ -1,7 +1,11 @@
+# Top level initialisation - calls the create_app() application factory
 import sqlalchemy as sa
 import sqlalchemy.orm as so
-from app import app, db
+from app import create_app, db
 from app.models import Country
+
+app = create_app()
+
 
 @app.shell_context_processor
 def make_shell_context():
