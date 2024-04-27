@@ -116,6 +116,14 @@ def update_country(id):
     c.from_dict(data)
     db.session.commit()
     return c.to_dict()
+ 
     
-
+# Delete country with <id> 
+@bp.delete('/countries/<int:id>')
+def delete_country(id):  
+    c = db.get_or_404(Country, id)  # retrieve country with <id>
+    
+    db.session.delete(c)
+    db.session.commit()
+    return c.to_dict()
 
