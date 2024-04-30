@@ -6,7 +6,7 @@ DigitalOcean tutorial on structuring a large Flask application.
 '''
 from flask import Flask
 
-from config import Config
+from config import Config, InMemoryConfig   
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -18,6 +18,7 @@ migrate = Migrate()
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
+    #app.config.from_object(InMemoryConfig)
     
     db.init_app(app)
     migrate.init_app(app, db)
