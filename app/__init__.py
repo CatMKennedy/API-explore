@@ -18,10 +18,15 @@ migrate = Migrate()
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
-    #app.config.from_object(InMemoryConfig)
+
+    #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://'
     
     db.init_app(app)
     migrate.init_app(app, db)
+   
+    #app_context = app.app_context()
+    #   app_context.push()
+    #   db.create_all()
 
     # Register blueprints here
     from app.main import bp as main_bp
@@ -32,3 +37,6 @@ def create_app(config_class=Config):
         return '<h1>Testing the Flask Application Factory Pattern</h1>'
 
     return app
+
+
+from app import models
