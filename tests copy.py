@@ -27,7 +27,7 @@ class UserModelCase(unittest.TestCase):
         self.app_context.pop()
 
 
-    def test_create_items(self):
+    def test_create_countries(self):
         c1 = Country(name='USA', capital='Washington', area=70000)
         c2 = Country(name='Canada', capital='Ottowa', area=60000)
         db.session.add_all([c1, c2])
@@ -35,14 +35,10 @@ class UserModelCase(unittest.TestCase):
    
         query = sa.select(Country)
         data = db.session.scalars(query).all()
+        print(f'retrieved = {data}')
+        countries = [c1, c2]
+        print(f'countries = {countries}')
         self.assertEqual(data, [c1, c2])
-
-    def test_update_item(self):
-        pass
-
-    def test_delete_item(self):
-        pass
-
 
 
 if __name__ == '__main__':
