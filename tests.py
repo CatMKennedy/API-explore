@@ -8,7 +8,7 @@ from app import create_app, db
 from app.models import Country
 from config import Config
 
-
+# Use in-memory test db 
 class TestConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite://'
@@ -26,16 +26,23 @@ class CountryModelCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-
-    def test_query_items(self):
+    def populate_db(self):
         c1 = Country(name='USA', capital='Washington', area=70000)
         c2 = Country(name='Canada', capital='Ottowa', area=60000)
         db.session.add_all([c1, c2])
         db.session.commit()
+        return [c1, c2]
+
+    # TO DO - test API 
+
+
+
+    def test_query_items(self):
+        init_state = self.populate_db()
    
         query = sa.select(Country)
         data = db.session.scalars(query).all()
-        self.assertEqual(data, [c1, c2])
+        self.assertEqual(data, init_state)
    
         query_attr = "name"
         query_value = "Canada"
@@ -45,10 +52,7 @@ class CountryModelCase(unittest.TestCase):
 
     
     def test_update_item(self):
-        c1 = Country(name='USA', capital='Washington', area=70000)
-        c2 = Country(name='Canada', capital='Ottowa', area=60000)
-        db.session.add_all([c1, c2])
-        db.session.commit()
+        init_state = self.populate_db()
         
         id = 1
         c = db.get_or_404(Country, id)  # retrieve country with <id>
@@ -61,10 +65,7 @@ class CountryModelCase(unittest.TestCase):
 
 
     def test_delete_item(self):
-        c1 = Country(name='USA', capital='Washington', area=70000)
-        c2 = Country(name='Canada', capital='Ottowa', area=60000)
-        db.session.add_all([c1, c2])
-        db.session.commit()
+        init_state = self.populate_db()
         
         id = 2
         c = db.get_or_404(Country, id)  # retrieve country with <id>
