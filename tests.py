@@ -14,7 +14,7 @@ class TestConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'sqlite://'
 
 
-class UserModelCase(unittest.TestCase):
+class CountryModelCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app(TestConfig)
         self.app_context = self.app.app_context()
@@ -49,6 +49,7 @@ class UserModelCase(unittest.TestCase):
         c2 = Country(name='Canada', capital='Ottowa', area=60000)
         db.session.add_all([c1, c2])
         db.session.commit()
+        
         id = 1
         c = db.get_or_404(Country, id)  # retrieve country with <id>
         self.assertEqual(c.area, 70000)
