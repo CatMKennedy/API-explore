@@ -8,7 +8,7 @@ import sqlalchemy as sa
 import sqlalchemy.orm as so
 from app import create_app, db
 from app.models import Country, init_db
-from config import Config, InMemoryConfig
+from config import Config
 
 app = create_app(Config)
 app_context = app.app_context()

@@ -3,9 +3,11 @@ os.environ['DATABASE_URL'] = 'sqlite://'
 
 from datetime import datetime, timezone, timedelta
 import unittest
+import json
 import sqlalchemy as sa
 from app import create_app, db
 from app.models import Country
+from app.main import bp
 from config import Config
 
 # Use in-memory test db 
@@ -20,6 +22,7 @@ class CountryModelCase(unittest.TestCase):
         self.app_context = self.app.app_context()
         self.app_context.push()
         db.create_all()
+        self.test_client = self.app.test_client()
 
     def tearDown(self):
         db.session.remove()
@@ -33,10 +36,16 @@ class CountryModelCase(unittest.TestCase):
         db.session.commit()
         return [c1, c2]
 
-    # TO DO - test API 
+    # test API 
 
+    def test_get_by_id(self):
+        init_state = self.populate_db() 
+        response = self.test_client.get('/countries/1') 
+        data = json.loads(response.get_data())
+        print(f'data = {data}')
+        self.assertEqual(response.status_code, 200)
 
-
+    # test database + models
     def test_query_items(self):
         init_state = self.populate_db()
    

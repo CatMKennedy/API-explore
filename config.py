@@ -10,7 +10,6 @@ class Config(object):
     
 class InMemoryConfig(Config):
     #For in-memory database - may be test or dev
-    #SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     SQLALCHEMY_DATABASE_URI = 'sqlite://'
     
-# TO DO - add other options - such as test and prod
+
