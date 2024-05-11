@@ -45,7 +45,7 @@ def get_countries():
 
 # Handle queries: get a country where an attribute has a particular value.
 # Currently only handles one attribute - for complex queries, needs to build a dynamic query
-@bp.get('/country/')   # /country/?<key>=<value>
+@bp.get('/country/')   # /country/?<attr>=<value>
 def get_country():
     # Get country attributes (from model)
     c = Country()
