@@ -38,12 +38,21 @@ class CountryModelCase(unittest.TestCase):
 
     # test API 
 
-    def test_get_by_id(self):
+    def test_get_country_by_id(self):
         init_state = self.populate_db() 
         response = self.test_client.get('/countries/1') 
         data = json.loads(response.get_data())
         print(f'data = {data}')
         self.assertEqual(response.status_code, 200)
+
+    def test_get_countries(self):
+        init_state = self.populate_db() 
+        response = self.test_client.get('/countries/all')
+        data = json.loads(response.get_data())
+        print(f'data = {data}')
+        self.assertEqual(response.status_code, 200)
+
+
 
     # test database + models
     def test_query_items(self):
