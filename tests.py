@@ -22,6 +22,7 @@ class CountryModelCase(unittest.TestCase):
         self.app_context = self.app.app_context()
         self.app_context.push()
         db.create_all()
+        # self.populate_db() should really have this here
         self.test_client = self.app.test_client()
 
     def tearDown(self):
@@ -45,10 +46,17 @@ class CountryModelCase(unittest.TestCase):
         print(f'data = {data}')
         self.assertEqual(response.status_code, 200)
 
+    def test_get_country_by_capital(self):
+        init_state = self.populate_db() 
+        response = self.test_client.get('/countries/Washington/') 
+        data = json.loads(response.get_data())
+        print(f'data = {data}')
+        self.assertEqual(response.status_code, 200)
+
     #TO DO - this is redundant - covered by country/?query string
     def test_get_country_by_capital(self):
         init_state = self.populate_db() 
-        response = self.test_client.get('/country/capital/?capital=Ottowa') 
+        response = self.test_client.get('/country/?capital=Ottowa') 
         data = json.loads(response.get_data())
         print(f'data = {data}')
         self.assertEqual(response.status_code, 200)
@@ -67,8 +75,6 @@ class CountryModelCase(unittest.TestCase):
         print(f'data = {data}')
         self.assertEqual(response.status_code, 200)
 
-    
-    # URLs and status codes should be constants
     def test_create_country(self):
         response = self.test_client.post('/countries/', 
             json={'name':'France', 

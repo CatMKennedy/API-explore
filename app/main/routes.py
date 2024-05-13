@@ -44,7 +44,7 @@ def get_countries():
     return jsonify(results)
 
 # Handle queries: get a country where an attribute has a particular value.
-# Currently only handles one attribute - for complex queries, needs to build a dynamic query
+# Currently only handles one attribute-value pair 
 @bp.get('/country/')   # /country/?<attr>=<value>
 def get_country():
     # Get country attributes (from model)
@@ -55,7 +55,7 @@ def get_country():
     arg_dict = request.args.to_dict()
     arg_key = list(arg_dict.keys())[0]  # Assume only one arg in query
     if not arg_key in c_dict.keys():
-        return error_response(400, f"Attribute {arg_key} not in database")
+        return error_response(404, f"Attribute {arg_key} not in database")
 
     # get the value
     query_value = request.args.get(arg_key)
@@ -68,20 +68,20 @@ def get_country():
         results = data.to_dict()
         return jsonify(results)
     else:
-        return error_response(400, f"Country with {arg_key} of {query_value} not found in database")
+        return error_response(404, f"Country where {arg_key} is {query_value} not found in database")
 
 
-#TO DO - this is redundant - already covered by country/?query string
-@bp.get('/country/capital/')   # /capital/?capital=<capital name>
-def get_country_with_capital():
-    capital = request.args.get('capital') 
+# Get country with a given capital - alternative to "?capital=<capital name>""
+@bp.get('/country/<capital>/')   
+def get_country_with_capital(capital):
+    #capital = request.args.get('capital') 
     data = db.session.scalar(sa.select(Country).where(
             Country.capital == capital))
     if data != None:
         results = data.to_dict()
         return jsonify(results)
     else:
-        return error_response(400, f"Country with capital {capital} not found in database")
+        return error_response(404, f"Country with capital {capital} not found in database")
 
 
 @bp.post('/countries/')
