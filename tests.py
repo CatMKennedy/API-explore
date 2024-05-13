@@ -45,12 +45,41 @@ class CountryModelCase(unittest.TestCase):
         print(f'data = {data}')
         self.assertEqual(response.status_code, 200)
 
+    #TO DO - this is redundant - covered by country/?query string
+    def test_get_country_by_capital(self):
+        init_state = self.populate_db() 
+        response = self.test_client.get('/country/capital/?capital=Ottowa') 
+        data = json.loads(response.get_data())
+        print(f'data = {data}')
+        self.assertEqual(response.status_code, 200)
+
     def test_get_countries(self):
         init_state = self.populate_db() 
         response = self.test_client.get('/countries/all')
         data = json.loads(response.get_data())
         print(f'data = {data}')
         self.assertEqual(response.status_code, 200)
+
+    def test_get_query_string(self):
+        init_state = self.populate_db() 
+        response = self.test_client.get('/country/?area=70000') 
+        data = json.loads(response.get_data())
+        print(f'data = {data}')
+        self.assertEqual(response.status_code, 200)
+
+    
+    # URLs and status codes should be constants
+    def test_create_country(self):
+        response = self.test_client.post('/countries/', 
+            json={'name':'France', 
+                'capital':'Paris',
+                'area': 20000}, content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+
+ 
+    def test_update_country(self):
+        pass
+
 
 
 

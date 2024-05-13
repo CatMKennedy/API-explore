@@ -71,6 +71,7 @@ def get_country():
         return error_response(400, f"Country with {arg_key} of {query_value} not found in database")
 
 
+#TO DO - this is redundant - already covered by country/?query string
 @bp.get('/country/capital/')   # /capital/?capital=<capital name>
 def get_country_with_capital():
     capital = request.args.get('capital') 
@@ -115,7 +116,7 @@ def update_country(id):
     # Make the update
     c.from_dict(data)
     db.session.commit()
-    return c.to_dict()
+    return c.to_dict(), 200
  
     
 # Delete country with <id> 
