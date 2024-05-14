@@ -45,7 +45,7 @@ def get_countries():
 
 # Handle queries: get a country where an attribute has a particular value.
 # Currently only handles one attribute-value pair 
-@bp.get('/country/')   # /country/?<attr>=<value>
+@bp.get('/countries/')   # /countries/?<attr>=<value>
 def get_country():
     # Get country attributes (from model)
     c = Country()
@@ -72,7 +72,7 @@ def get_country():
 
 
 # Get country with a given capital - alternative to "?capital=<capital name>""
-@bp.get('/country/<capital>/')   
+@bp.get('/countries/<capital>/')   
 def get_country_with_capital(capital):
     #capital = request.args.get('capital') 
     data = db.session.scalar(sa.select(Country).where(
@@ -126,5 +126,5 @@ def delete_country(id):
     
     db.session.delete(c)
     db.session.commit()
-    return c.to_dict()
+    return c.to_dict(), 200
 

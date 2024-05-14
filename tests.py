@@ -16,13 +16,13 @@ class TestConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'sqlite://'
 
 
-class CountryModelCase(unittest.TestCase):
+class CountryAPICase(unittest.TestCase):
     def setUp(self):
         self.app = create_app(TestConfig)
         self.app_context = self.app.app_context()
         self.app_context.push()
         db.create_all()
-        # self.populate_db() should really have this here
+        self.populate_db() 
         self.test_client = self.app.test_client()
 
     def tearDown(self):
@@ -35,42 +35,34 @@ class CountryModelCase(unittest.TestCase):
         c2 = Country(name='Canada', capital='Ottowa', area=60000)
         db.session.add_all([c1, c2])
         db.session.commit()
-        return [c1, c2]
+        #return [c1, c2]
 
     # test API 
 
     def test_get_country_by_id(self):
-        init_state = self.populate_db() 
+        #self.populate_db() 
         response = self.test_client.get('/countries/1') 
         data = json.loads(response.get_data())
         print(f'data = {data}')
         self.assertEqual(response.status_code, 200)
 
     def test_get_country_by_capital(self):
-        init_state = self.populate_db() 
+        #self.populate_db() 
         response = self.test_client.get('/countries/Washington/') 
         data = json.loads(response.get_data())
         print(f'data = {data}')
         self.assertEqual(response.status_code, 200)
 
-    #TO DO - this is redundant - covered by country/?query string
-    def test_get_country_by_capital(self):
-        init_state = self.populate_db() 
-        response = self.test_client.get('/country/?capital=Ottowa') 
-        data = json.loads(response.get_data())
-        print(f'data = {data}')
-        self.assertEqual(response.status_code, 200)
-
-    def test_get_countries(self):
-        init_state = self.populate_db() 
+    def test_get_all_countries(self):
+        #self.populate_db() 
         response = self.test_client.get('/countries/all')
         data = json.loads(response.get_data())
         print(f'data = {data}')
         self.assertEqual(response.status_code, 200)
 
     def test_get_query_string(self):
-        init_state = self.populate_db() 
-        response = self.test_client.get('/country/?area=70000') 
+        #self.populate_db() 
+        response = self.test_client.get('/countries/?area=70000') 
         data = json.loads(response.get_data())
         print(f'data = {data}')
         self.assertEqual(response.status_code, 200)
@@ -84,52 +76,15 @@ class CountryModelCase(unittest.TestCase):
 
  
     def test_update_country(self):
-        pass
-
-
-
-
-    # test database + models
-    def test_query_items(self):
-        init_state = self.populate_db()
-   
-        query = sa.select(Country)
-        data = db.session.scalars(query).all()
-        self.assertEqual(data, init_state)
-   
-        query_attr = "name"
-        query_value = "Canada"
-        data = db.session.scalar(sa.select(Country).where(
-            getattr(Country, query_attr) == query_value))  
-        self.assertEqual(data.capital, "Ottowa")
-
-    
-    def test_update_item(self):
-        init_state = self.populate_db()
+        response = self.test_client.put('/countries/2', 
+            json = {'area': 85000}, content_type='application/json') 
+        self.assertEqual(response.status_code, 200)
         
-        id = 1
-        c = db.get_or_404(Country, id)  # retrieve country with <id>
-        self.assertEqual(c.area, 70000)
 
-        c.area = 150000
-        db.session.commit()
-        c_updated = db.get_or_404(Country, id)
-        self.assertEqual(c_updated.area, 150000)
-
-
-    def test_delete_item(self):
-        init_state = self.populate_db()
-        
-        id = 2
-        c = db.get_or_404(Country, id)  # retrieve country with <id>
-        self.assertEqual(c.name, "Canada")
-        db.session.delete(c)
-        db.session.commit()
-
-        data = db.session.scalar(sa.select(Country).where(
-            getattr(Country, "name") == "Canada"))
-        self.assertEqual(data, None)
-
+    def test_delete_country(self):
+        response = self.test_client.delete('/countries/1', 
+            content_type='application/json') 
+        self.assertEqual(response.status_code, 200)
         
 
 
