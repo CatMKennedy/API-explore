@@ -38,34 +38,38 @@ class CountryAPICase(unittest.TestCase):
         #return [c1, c2]
 
     # test API 
+    # TO DO - refactoring - repeated code and string constants currently
 
     def test_get_country_by_id(self):
-        #self.populate_db() 
         response = self.test_client.get('/countries/1') 
         data = json.loads(response.get_data())
         print(f'data = {data}')
         self.assertEqual(response.status_code, 200)
+        # test error-hanlding - non-existent id
+        response = self.test_client.get('/countries/20') 
+        self.assertEqual(response.status_code, 404)
 
-    def test_get_country_by_capital(self):
-        #self.populate_db() 
+    def test_get_country_by_capital(self): 
         response = self.test_client.get('/countries/Washington/') 
         data = json.loads(response.get_data())
         print(f'data = {data}')
         self.assertEqual(response.status_code, 200)
+        # test error-handling - non-existent capital
+        response = self.test_client.get('/countries/Athens/')
+        self.assertEqual(response.status_code, 404)
 
-    def test_get_all_countries(self):
-        #self.populate_db() 
+    def test_get_all_countries(self): 
         response = self.test_client.get('/countries/all')
         data = json.loads(response.get_data())
         print(f'data = {data}')
         self.assertEqual(response.status_code, 200)
 
     def test_get_query_string(self):
-        #self.populate_db() 
         response = self.test_client.get('/countries/?area=70000') 
         data = json.loads(response.get_data())
         print(f'data = {data}')
         self.assertEqual(response.status_code, 200)
+        #TO DO - need to test badly formed query string
 
     def test_create_country(self):
         response = self.test_client.post('/countries/', 
@@ -73,20 +77,31 @@ class CountryAPICase(unittest.TestCase):
                 'capital':'Paris',
                 'area': 20000}, content_type='application/json')
         self.assertEqual(response.status_code, 201)
-
- 
+        #test error handling - repeat post of same item, which already exists
+        response = self.test_client.post('/countries/', 
+            json={'name':'France', 
+                'capital':'Paris',
+                'area': 20000}, content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+        
     def test_update_country(self):
         response = self.test_client.put('/countries/2', 
             json = {'area': 85000}, content_type='application/json') 
         self.assertEqual(response.status_code, 200)
+        #test error handling - item to be updated not found
+        response = self.test_client.put('/countries/20', 
+            json = {'area': 85000}, content_type='application/json') 
+        self.assertEqual(response.status_code, 404)
         
-
     def test_delete_country(self):
         response = self.test_client.delete('/countries/1', 
             content_type='application/json') 
         self.assertEqual(response.status_code, 200)
+        #test error handling - item to be deleted not found
+        response = self.test_client.delete('/countries/20', 
+            content_type='application/json') 
+        self.assertEqual(response.status_code, 404)
         
-
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
