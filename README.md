@@ -1,1 +1,1 @@
-Exploring REST APIs using Flask. More to be added.
+REST API using Flask. More to be added.

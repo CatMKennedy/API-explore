@@ -38,7 +38,7 @@ class CountryAPICase(unittest.TestCase):
         #return [c1, c2]
 
     # test API 
-    # TO DO - refactoring - repeated code and string constants currently
+    # TO DO - refactoring - repeated code and URL constants 
     # - also need more error handling tests
 
     def test_get_country_by_id(self):
