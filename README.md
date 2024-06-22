@@ -1,6 +1,8 @@
-This is an example REST API using Python Flask, SQLite and SQLAlchemy.
+Example REST API using Python Flask, SQLite and SQLAlchemy.
 
-The data model is for demonstration only and contains a list of countries. Each entry contains the country name, capital and area. This is based on the tutorial at: https://realpython.com/api-integration-in-python/#flask. In the repo, the database is already initialised and contains 10 example countries.
+The data model is for demonstration only and contains a list of countries, with country name, capital and area. The example is based on the tutorial at: https://realpython.com/api-integration-in-python/#flask. In the repo, the database is already initialised and contains 10 example countries.
+
+USER GUIDE
 
 After creating a virtual environment, and installing the packages in "requirements.txt", it should be easy to try out the API manually on localhost. First, start the application on the Flask development server:
 
@@ -38,7 +40,9 @@ http://127.0.0.1:5000/countries/?name=Norway
 - should return the json entry for the newly added country
 
 Modify the new entry by changing the area (assume id = 11):
+
 curl -i -H "Content-Type: application/json" -X PUT -d '{"area":15000}' http://localhost:5000/countries/11
 
 Delete it:
+
 curl -i -H "Content-Type: application/json" -X DELETE http://localhost:5000/countries/11
