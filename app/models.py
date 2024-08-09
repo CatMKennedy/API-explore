@@ -12,6 +12,7 @@ class Country(db.Model):
     capital: so.Mapped[str] = so.mapped_column(sa.String(120), index=True,
                                              unique=True)
     area: so.Mapped[Optional[str]] = so.mapped_column(sa.Integer)
+    population: so.Mapped[Optional[str]] = so.mapped_column(sa.Integer)
 
     def __repr__(self):
         return '<Country {}>'.format(self.name)
@@ -21,7 +22,8 @@ class Country(db.Model):
             'id': self.id,
             'name': self.name,
             'capital': self.capital,
-            'area': self.area   
+            'area': self.area, 
+            'population': self.population  
         }
         return data
     
