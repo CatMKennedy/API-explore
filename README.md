@@ -1,6 +1,6 @@
 Example REST API using Python Flask, SQLite and SQLAlchemy.
 
-The data model is for demonstration only and contains a list of countries, with country name, capital and area. (Data is approximately based on the tutorial at: https://realpython.com/api-integration-in-python/#flask). In the repo, the database is already initialised and contains 10 example countries.
+The data model is for demonstration only and contains a list of countries, with country name, capital, area and population. (Data is approximately based on the tutorial at: https://realpython.com/api-integration-in-python/#flask). In the repo, the database is already initialised and contains 10 example countries.
 
 USER GUIDE
 
