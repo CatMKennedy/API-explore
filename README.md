@@ -32,7 +32,7 @@ To add, modify or delete a country - use command line with cURL.
 
 Example: create a new entry:
 
-curl -i http://127.0.0.1:5000/countries/ -X POST -H 'Content-Type: application/json' -d '{"name":"Norway", "capital": "Oslo", "area":30000}' -w '\n
+curl -i http://127.0.0.1:5000/countries/ -X POST -H 'Content-Type: application/json' -d '{"name":"Norway", "capital": "Oslo", "area":300000, "population": 5000000}' -w '\n
 
 Check it:
 http://127.0.0.1:5000/countries/?name=Norway
