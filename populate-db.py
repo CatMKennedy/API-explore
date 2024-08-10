@@ -1,11 +1,11 @@
-'''Calls an API - mostly used for populating and deleting data from a db
+'''Calls an API to post some records to a db table
 '''
 
 import requests
 
 url = "http://127.0.0.1:5000/countries/"
 
-# Populate db with some initial values - area (square km)
+# Populate db with some initial values (area in square km, population in millions)
 
 data = [
     {"area":358000,"capital":"Berlin","id":1,"name":"Germany","population":83},
