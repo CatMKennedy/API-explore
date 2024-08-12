@@ -21,9 +21,19 @@ new_data = [
 #response = requests.get(url+str(1))
 #print(response)
 
-# TO DO - add exceptions
 for item in new_data: 
-    response = requests.post(url, json=item)
+    try:
+        response = requests.post(url, json=item)
+        response.raise_for_status()
+    except requests.exceptions.HTTPError as http_err:
+        print ("HTTP Error:", http_err)
+    except requests.exceptions.ConnectionError as conn_err:
+        print ("Connection error:", conn_err)
+    except requests.exceptions.Timeout as timeout_err:
+        print ("Timeout error:", timeout_err)
+    except requests.exceptions.RequestException as err:
+        print ("Unknown error:", err)
+
     print(response)
 
 
