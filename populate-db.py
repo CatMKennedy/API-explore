@@ -1,6 +1,6 @@
 import requests
 
-# Utility script - Populate db with some initial values (area in square km, population in millions)
+# Utility script - Populate countries db with some initial values (area in square km, population in millions)
 
 url = "http://127.0.0.1:5000/countries/"
 
@@ -16,10 +16,6 @@ new_data = [
     {"area":92000,"capital":"Lisbon","id":9,"name":"Portugal","population":10},
     {"area":439000,"capital":"Stockholm","id":10,"name":"Sweden","population":11}
 ]
-
-# find out how many entries there are already
-#response = requests.get(url+str(1))
-#print(response)
 
 for item in new_data: 
     try:
