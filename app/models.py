@@ -28,7 +28,7 @@ class Country(db.Model):
         return data
     
     def from_dict(self, data):
-        for field in ['name', 'capital', 'area']:
+        for field in ['name', 'capital', 'area', 'population']:
             if field in data:
                 setattr(self, field, data[field])
 

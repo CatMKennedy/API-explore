@@ -1,13 +1,10 @@
-'''Calls an API to post some records to a db table
-'''
-
 import requests
+
+# Utility script - Populate db with some initial values (area in square km, population in millions)
 
 url = "http://127.0.0.1:5000/countries/"
 
-# Populate db with some initial values (area in square km, population in millions)
-
-data = [
+new_data = [
     {"area":358000,"capital":"Berlin","id":1,"name":"Germany","population":83},
     {"area":544000,"capital":"Paris","id":2,"name":"France","population":65},
     {"area":244000,"capital":"London","id":3,"name":"UK","population":68},
@@ -20,11 +17,14 @@ data = [
     {"area":439000,"capital":"Stockholm","id":10,"name":"Sweden","population":11}
 ]
 
-# call requests.post for each one ...
-# TO DO - needs error handling
-for item in data: 
+# find out how many entries there are already
+#response = requests.get(url+str(1))
+#print(response)
+
+# TO DO - add exceptions
+for item in new_data: 
     response = requests.post(url, json=item)
-    print(response.json())
+    print(response)
 
 
 
