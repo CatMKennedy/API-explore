@@ -46,3 +46,9 @@ curl -i -H "Content-Type: application/json" -X PUT -d '{"area":15000}' http://lo
 Delete it:
 
 curl -i -H "Content-Type: application/json" -X DELETE http://localhost:5000/countries/11
+
+## Changes to Database Schema
+
+To add new attributes to a table, change the data fields in "models.py" (along with associated methods as necessary, such as "to_dict" and "from_dict"). Then run the flask-migrate commands ("migrate" and "upgrade") according to the flas-migrate documentation. This has already been tested by adding the "population" field. It should be similar for removal/modification of attributes.
+
+Adding or deleting a table: not tested yet.
