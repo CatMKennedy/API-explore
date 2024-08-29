@@ -10,9 +10,10 @@ The project is work-in-progress. Still to do:
 - API documentation using best practices
 
 Tutorials that I have found helpful:
-https://courses.miguelgrinberg.com/p/flask-mega-tutorial - particularly the chapter on API development,
-https://www.udemy.com/course/rest-api-flask-and-python/ - as a general guideline,
-https://realpython.com/api-integration-in-python/#flask - also useful.
+
+- https://courses.miguelgrinberg.com/p/flask-mega-tutorial - particularly the chapter on API development,
+- https://www.udemy.com/course/rest-api-flask-and-python/ - as a general guideline,
+- https://realpython.com/api-integration-in-python/#flask - also useful.
 
 ## Database
 
