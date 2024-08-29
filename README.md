@@ -1,5 +1,16 @@
 ## Example REST API using Python Flask, SQLite and SQLAlchemy
 
+Important: code and README for this project are human-produced. I have not used any generative AI tool.
+
+The project is work-in-progress. Still to do:
+
+- more detailed testing and error handling
+- security and rate-limiting
+- CI/CD and deployment
+- API documentation using best practices
+
+## Database
+
 The data model is for demonstration only and contains a list of countries, with country name, capital, area and population. (Data is approximately based on the tutorial at: https://realpython.com/api-integration-in-python/#flask). In the repo, the database is already initialised and contains 10 example countries.
 
 ## USER GUIDE
