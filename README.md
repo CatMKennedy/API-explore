@@ -9,6 +9,11 @@ The project is work-in-progress. Still to do:
 - CI/CD and deployment
 - API documentation using best practices
 
+Tutorials that I have found helpful:
+https://courses.miguelgrinberg.com/p/flask-mega-tutorial - particularly the chapter on API development,
+https://www.udemy.com/course/rest-api-flask-and-python/ - as a general guideline,
+https://realpython.com/api-integration-in-python/#flask - also useful.
+
 ## Database
 
 The data model is for demonstration only and contains a list of countries, with country name, capital, area and population. (Data is approximately based on the tutorial at: https://realpython.com/api-integration-in-python/#flask). In the repo, the database is already initialised and contains 10 example countries.
