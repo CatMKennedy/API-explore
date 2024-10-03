@@ -1,4 +1,6 @@
 # Defines object relational mappings using SQLAlchemy
+# This code is based on the tutorial at: https://courses.miguelgrinberg.com/p/flask-mega-tutorial 
+# - chapter on API development
 
 from typing import Optional
 import sqlalchemy as sa

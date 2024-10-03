@@ -2,7 +2,9 @@
 
 Important: code and README for this project are human-produced. I have not used any generative AI tool.
 
-The project is work-in-progress. Still to do:
+This is a personal project which I work on in my spare time. Updates are intermittent.
+
+The project is a work-in-progress. Still to do:
 
 - more detailed testing and error handling
 - security and rate-limiting
@@ -17,7 +19,7 @@ Tutorials that I have found helpful:
 
 ## Database
 
-The data model is for demonstration only and contains a list of countries, with country name, capital, area and population. (Data is approximately based on the tutorial at: https://realpython.com/api-integration-in-python/#flask). In the repo, the database is already initialised and contains 10 example countries.
+The data model is for demonstration only and contains a list of countries, with country name, capital, area and population. The database is already initialised and contains 10 example countries. (Data is partly based on the tutorial at: https://realpython.com/api-integration-in-python/#flask). 
 
 ## USER GUIDE
 
