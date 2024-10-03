@@ -8,6 +8,7 @@ The project is a work-in-progress. Still to do:
 
 - more detailed testing and error handling
 - security and rate-limiting
+- Docker and deployment
 - CI/CD using Github Actions
 - API documentation using best practices
 
